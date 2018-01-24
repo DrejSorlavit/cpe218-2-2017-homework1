@@ -1,143 +1,99 @@
-import java.util.Scanner;
 import java.util.Stack;
-//Test
-
-public static void infix(Node n)
-	{
-            if (n != null) {
-                if (n.left != null && n.right != null) {  
-                    System.out.print ("(");
-                }
-                infix(n.left);
-                System.out.print(n.c);
-                infix(n.right);
-                if (n.left != null && n.right != null) {  
-                    System.out.print (")");
-                }
-            }
-         }
-        
-        public static void inorder(Node n)
-	{
-            if (n != null) {
-                inorder(n.left);
-            
-                System.out.print(n.c);
-            
-                inorder(n.right);
-            }
+import java.util.Scanner;
+ 
+public class Homework1 {
+ 
+    public static Stack<Character> queStack = new Stack<Character>();
+    public static Node tree;
+    static class Node{
+        Character data;
+        Node left,right;
+        public Node(char key) {
+            data = key;
         }
-        
-        public static double calculate(Node node)
-	{
-            
-            if (node.left == null && node.right == null)
-                return node.c - '0';
-            else{
-                double result = 0;
-                double left = calculate(node.left);
-                double right = calculate(node.right);
-                char operator = node.c;
-                
-
-                switch (operator){
-                    
-                    case '+' : result = left + right; break;
-                    case '-' : result = left - right; break;
-                    case '*' : result = left * right; break;
-                    case '/' : result = left / right; break;
-                    default  : result = left + right; break;
-                }
-                return result;
-            }   
+        public String toString() {
+            return data.toString();
         }
-                
-        public static boolean isOperator(char cha)
-	{
-            return cha=='+' || cha=='-' || cha=='*' || cha=='/';
+    }
+   
+    public static void main(String[] args) {
+        // Begin of arguments input sample
+        System.out.print("input : ");
+        Scanner Question = new Scanner(System.in);
+        String input = Question.nextLine();
+       
+        // TODO: Implement your project here
+ 
+        for(int i = 0; i < input.length(); i++)
+        {
+            queStack.add(input.charAt(i));
         }
-        
-        public static Node findMin(Node node)
-	{
-            Node min = node;
-            while(min.left != null){
-                min = min.left;
-            }
-            return min;
+ 
+        tree = new Node(queStack.pop());
+        infix(tree);
+        inorder(tree);
+ 
+ 
+        System.out.print(" = ");
+        System.out.print(calculate(tree));
+ 
+        TreeDemo.main(args);
+ 
+    }
+   
+    static void infix(Node n){
+ 
+        if(isOperator(n.data)){
+               
+            n.right = new Node(queStack.pop());
+            infix(n.right);
+            n.left = new Node(queStack.pop());
+            infix(n.left);
         }
-        
-        public static Node findMax(Node node)
-	{
-            Node max = node;
-            while(max.right != null){
-                max = max.right;
-            }
-            return max;
-        
-    	}
-}
-
-class Node
-{
-    Node left, right ;
-    char c;
-    Node(char cha){
-        this.c = cha;
-        left = null;
-        right = null;
-}
-    
-    
-}
-
-public class Homework1 
-{
-	public static void main(String[] args) 
-	{
-		
-		// TODO: Implement your project here
-                System.out.print("Input: ");
-                
-                Scanner input = new Scanner(System.in);
-                Homework1 boom = new Homework1();
-                String postfix = input.nextLine();
-                char[] c = postfix.replace(" ", "").toCharArray();
-                Node root = boom.tree(c);
-                
-                System.out.print("Output: ");
-                boom.infix(root);
-                System.out.print(" = ");
-              System.out.println(calculate(root));
-	}
-        
-        Node tree(char[] postfix)
-	{
-            Stack<Node> st = new Stack();
-            Node r ,t1 ,t2 ;
-            
+    }
            
-            
-            for(int i=0;i<postfix.length;i++){
-                if(!isOperator(postfix[i])){
-                    r = new Node(postfix[i]);
-                    st.push(r);
-                }else{
-                    r = new Node(postfix[i]);
-                    t1 = st.pop();
-                    t2 = st.pop();
-                        
-                    r.right = t1;
-                    r.left = t2;
-                    
-                  
-
-                    st.push(r);
-                    }
+    static void inorder(Node n){
+       
+        if(isOperator(n.data))
+        {
+            if(n!=tree)
+            {
+                System.out.print("(");
+            }
+            inorder(n.left);
+            System.out.print(n.data);
+            inorder(n.right);
+                if(n!=tree)
+                {
+                    System.out.print(")");
                 }
-            r = st.peek();
-            st.pop();
-            
-            return r;
+ 
+        }else{ System.out.print(n.data);
+            }
+    }
+    
+    static boolean isOperator(char sign){
+        return sign== '+' || 
+	       sign== '-' ||
+	       sign== '*' || 
+	       sign== '/';
+    }
+	
+    static int calculate(Node n) {
+       
+            if (n.data == '+') {
+                return calculate(n.left) + calculate(n.right);
+            }
+            if (n.data == '-') {
+                return calculate(n.left) - calculate(n.right);
+            }
+            if (n.data == '*') {
+                return calculate(n.left) * calculate(n.right);
+            }
+            if (n.data == '/') {
+                return calculate(n.left) / calculate(n.right);
+            }
+ 
+        return Integer.parseInt(n.data.toString());
+    }
 }
-        
-        
