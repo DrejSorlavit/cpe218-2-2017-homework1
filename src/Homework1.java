@@ -81,19 +81,14 @@ public class Homework1 {
 	
     static int calculate(Node n) {
        
-            if (n.data == '+') {
-                return calculate(n.left) + calculate(n.right);
-            }
-            if (n.data == '-') {
-                return calculate(n.left) - calculate(n.right);
-            }
-            if (n.data == '*') {
-                return calculate(n.left) * calculate(n.right);
-            }
-            if (n.data == '/') {
-                return calculate(n.left) / calculate(n.right);
-            }
- 
-        return Integer.parseInt(n.data.toString());
+            if (n.data == '+') return calculate(n.left) + calculate(n.right);
+            
+            if (n.data == '-') return calculate(n.left) - calculate(n.right);
+            
+            if (n.data == '*') return calculate(n.left) * calculate(n.right);
+            
+            if (n.data == '/') return calculate(n.left) / calculate(n.right);
+            
+	    return Integer.parseInt(n.data.toString());
     }
 }
