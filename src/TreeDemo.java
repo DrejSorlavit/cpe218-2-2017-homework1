@@ -193,6 +193,6 @@ public class TreeDemo extends JPanel
             public void run() {
                 createAndShowGUI();
             }
-        });
+        }
     }
 }
