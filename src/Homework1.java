@@ -43,7 +43,7 @@ public class Homework1 {
    
     static void infix(Node n){
  
-        if(isOperator(n.data)){
+        if(n.data == '+' || '-' || '*' || '/'){
                
             n.right = new Node(queStack.pop());
             infix(n.right);
@@ -54,7 +54,7 @@ public class Homework1 {
            
     static void inorder(Node n){
        
-        if(isOperator(n.data))
+        if(n.data == '+' || '-' || '*' || '/')
         {
             if(n!=tree)
             {
@@ -72,12 +72,6 @@ public class Homework1 {
             }
     }
     
-    static boolean isOperator(char sign){
-        return sign== '+' || 
-	       sign== '-' ||
-	       sign== '*' || 
-	       sign== '/';
-    }
 	
     static int calculate(Node n) {
        
